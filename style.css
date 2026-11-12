@@ -183,6 +183,9 @@ details textarea { margin: 8px 0; }
 /* Catalogo */
 .intro { color: var(--muted); margin: 0 0 12px; }
 .chips { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.chips.small { margin-top: 8px; }
+.chips.small .chip { padding: 4px 12px; font-size: .88rem; }
+.form select { font: inherit; font-weight: normal; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text); }
 .chip {
   border: 1px solid var(--border); background: var(--surface); color: var(--text);
   padding: 6px 14px; border-radius: 999px; font: inherit; cursor: pointer;

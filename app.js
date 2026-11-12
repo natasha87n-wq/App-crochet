@@ -57,7 +57,7 @@ function show(view, title) {
   $('#btn-back').hidden = isTab;
   $('#tabs').hidden = !isTab;
   document.querySelectorAll('#tabs a').forEach(a => a.classList.toggle('active', a.dataset.tab === view));
-  $('#page-title').textContent = title || '🧶 Uncinetto';
+  $('#page-title').textContent = title || '🧵 Uncinetto & Sashiko';
   window.scrollTo(0, 0);
 }
 
@@ -79,12 +79,27 @@ $('#btn-back').addEventListener('click', () => {
 
 // ---------- Catalogo ----------
 let catalogLevel = '';
+let catalogCat = '';
+let listCat = '';
+const catOf = x => x.category || 'uncinetto';
+const toolText = x => CATEGORIES[catOf(x)].tool + x.hook;
+
+// Gestione di un gruppo di "chip" (filtri a pulsante)
+function chipGroup(sel, onChange) {
+  $(sel).addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    document.querySelectorAll(sel + ' .chip').forEach(c => c.classList.toggle('active', c === chip));
+    onChange(chip.dataset.value);
+  });
+}
 
 function renderCatalog() {
   show('catalog');
   const q = $('#c-search').value.trim().toLowerCase();
   const items = CATALOG.filter(c =>
     (!catalogLevel || c.level === catalogLevel) &&
+    (!catalogCat || catOf(c) === catalogCat) &&
     (!q || (c.title + ' ' + c.intro).toLowerCase().includes(q)));
   $('#catalog-grid').innerHTML = items.map(c => `
     <a class="card" href="#catalogo/${c.id}">
@@ -92,18 +107,13 @@ function renderCatalog() {
       <span class="badge level-${c.level.toLowerCase()}">${c.level}</span>
       <div class="card-body">
         <strong>${esc(c.title)}</strong>
-        <small>⏱ ${esc(c.time)}</small>
+        <small>${CATEGORIES[catOf(c)].icon} ${CATEGORIES[catOf(c)].label} · ⏱ ${esc(c.time)}</small>
       </div>
     </a>`).join('') || '<p class="empty">Nessun modello trovato.</p>';
 }
 $('#c-search').addEventListener('input', renderCatalog);
-$('#c-filters').addEventListener('click', e => {
-  const chip = e.target.closest('.chip');
-  if (!chip) return;
-  catalogLevel = chip.dataset.level;
-  document.querySelectorAll('#c-filters .chip').forEach(c => c.classList.toggle('active', c === chip));
-  renderCatalog();
-});
+chipGroup('#c-cats', v => { catalogCat = v; renderCatalog(); });
+chipGroup('#c-levels', v => { catalogLevel = v; renderCatalog(); });
 
 let currentModel = null;
 function openCatalogItem(id) {
@@ -114,7 +124,7 @@ function openCatalogItem(id) {
   $('#c-photo').src = c.image;
   $('#c-title').textContent = c.title;
   $('#c-info').innerHTML = [
-    ['📶', c.level], ['⏱', c.time], ['📏', c.size], ['🧶', c.yarn], ['🪝', 'uncinetto ' + c.hook],
+    [CATEGORIES[catOf(c)].icon, CATEGORIES[catOf(c)].label], ['📶', c.level], ['⏱', c.time], ['📏', c.size], ['🧵', c.yarn], ['', toolText(c)],
   ].map(([i, t]) => `<span>${i} ${esc(t)}</span>`).join('');
   $('#c-intro').textContent = c.intro;
   $('#c-materials').innerHTML = c.materials.map(m => `<li>${esc(m)}</li>`).join('');
@@ -146,7 +156,7 @@ function patternTextOf(c) {
 $('#btn-start').addEventListener('click', async () => {
   const c = currentModel;
   const project = {
-    id: uid(), sourceId: c.id, title: c.title, yarn: c.yarn, hook: c.hook,
+    id: uid(), sourceId: c.id, category: catOf(c), title: c.title, yarn: c.yarn, hook: c.hook,
     photo: c.image, patternText: patternTextOf(c), patternFile: null,
     steps: c.steps.map(text => ({ text, done: false })),
     createdAt: Date.now(), updatedAt: Date.now(),
@@ -163,6 +173,7 @@ async function renderList() {
   projects.sort((a, b) => b.updatedAt - a.updatedAt);
   const total = projects.length;
   if (q) projects = projects.filter(p => p.title.toLowerCase().includes(q));
+  if (listCat) projects = projects.filter(p => catOf(p) === listCat);
 
   $('#empty').hidden = total > 0;
   $('#project-grid').innerHTML = projects.map(p => {
@@ -170,17 +181,18 @@ async function renderList() {
     const badge = pr.total && pr.done === pr.total ? '<span class="badge">Finito ✓</span>' : '';
     return `
       <a class="card" href="#lavoro/${p.id}">
-        ${p.photo ? `<img src="${p.photo}" alt="">` : '<div class="photo-placeholder">🧶</div>'}
+        ${p.photo ? `<img src="${p.photo}" alt="">` : `<div class="photo-placeholder">${CATEGORIES[catOf(p)].icon}</div>`}
         ${badge}
         <div class="card-body">
           <strong>${esc(p.title)}</strong>
           <div class="progress"><div style="width:${pr.pct}%"></div></div>
-          <small>${pr.total ? `${pr.done}/${pr.total} passi` : 'Nessun passo'}</small>
+          <small>${CATEGORIES[catOf(p)].icon} ${pr.total ? `${pr.done}/${pr.total} passi` : 'Nessun passo'}</small>
         </div>
       </a>`;
   }).join('');
 }
 $('#search').addEventListener('input', renderList);
+chipGroup('#l-cats', v => { listCat = v; renderList(); });
 $('#btn-new').addEventListener('click', () => { location.hash = 'nuovo'; });
 
 // ---------- Dettaglio ----------
@@ -199,8 +211,9 @@ function renderDetail() {
 
   $('#d-title').textContent = p.title;
   const meta = [];
-  if (p.yarn) meta.push('🧶 ' + p.yarn);
-  if (p.hook) meta.push('🪝 ' + p.hook);
+  meta.push(CATEGORIES[catOf(p)].icon + ' ' + CATEGORIES[catOf(p)].label);
+  if (p.yarn) meta.push('🧵 ' + p.yarn);
+  if (p.hook) meta.push(toolText(p));
   $('#d-meta').textContent = meta.join('  ·  ');
 
   const src = p.sourceId && CATALOG.find(c => c.id === p.sourceId);
@@ -268,12 +281,13 @@ async function openForm(id) {
   const existing = id ? await DB.get(id) : null;
   draft = existing
     ? structuredClone(existing)
-    : { id: uid(), title: '', yarn: '', hook: '', photo: null, patternText: '', patternFile: null, steps: [], createdAt: Date.now() };
+    : { id: uid(), category: listCat || 'uncinetto', title: '', yarn: '', hook: '', photo: null, patternText: '', patternFile: null, steps: [], createdAt: Date.now() };
   show('form', existing ? 'Modifica lavoro' : 'Nuovo lavoro');
 
   form.title.value = draft.title;
   form.yarn.value = draft.yarn || '';
   form.hook.value = draft.hook || '';
+  form.category.value = catOf(draft);
   form.patternText.value = draft.patternText || '';
   $('#f-bulk').value = '';
   renderFormPhoto();
@@ -362,6 +376,7 @@ form.addEventListener('submit', async e => {
   draft.title = form.title.value.trim();
   draft.yarn = form.yarn.value.trim();
   draft.hook = form.hook.value.trim();
+  draft.category = form.category.value;
   draft.patternText = form.patternText.value.trim();
   draft.steps = draft.steps.filter(s => s.text.trim());
   draft.updatedAt = Date.now();

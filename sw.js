@@ -1,9 +1,10 @@
 // Service worker: rende l'app utilizzabile anche senza connessione.
-const CACHE = 'uncinetto-v2';
+const CACHE = 'uncinetto-v3';
 const FILES = [
   './', 'index.html', 'style.css', 'app.js', 'db.js', 'manifest.webmanifest',
   'catalog.js',
-  ...['sottobicchiere','presina','fiore','cuore','granny','pallina','sciarpa','cestino','berretto','coperta'].map(n => `catalog/${n}.svg`),
+  ...['sottobicchiere','presina','fiore','cuore','granny','pallina','sciarpa','cestino','berretto','coperta',
+      'sashiko-campionario','sashiko-hitomezashi','sashiko-yamagata','sashiko-rammendo','sashiko-seigaiha','sashiko-asanoha'].map(n => `catalog/${n}.svg`),
   'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png',
 ];
 

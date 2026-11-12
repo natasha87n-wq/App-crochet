@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#ece5d8"/>
+  <rect x="166" y="24" width="80" height="240" fill="#000" opacity=".1"/>
+  <rect x="160" y="18" width="80" height="240" rx="4" fill="#23395b"/>
+  <polyline points="168,34 176,42 184,34 192,42 200,34 208,42 216,34 224,42 232,34" fill="none" stroke="#f5f1e8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
+  <polyline points="168,50 176,58 184,50 192,58 200,50 208,58 216,50 224,58 232,50" fill="none" stroke="#f5f1e8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
+  <polyline points="168,66 176,74 184,66 192,74 200,66 208,74 216,66 224,74 232,66" fill="none" stroke="#f5f1e8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
+  <polyline points="168,82 176,90 184,82 192,90 200,82 208,90 216,82 224,90 232,82" fill="none" stroke="#f5f1e8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
+  <polyline points="168,98 176,106 184,98 192,106 200,98 208,106 216,98 224,106 232,98" fill="none" stroke="#f5f1e8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
+  <polyline points="168,114 176,122 184,114 192,122 200,114 208,122 216,114 224,122 232,114" fill="none" stroke="#f5f1e8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
+  <polyline points="168,130 176,138 184,130 192,138 200,130 208,138 216,130 224,138 232,130" fill="none" stroke="#f5f1e8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
+  <polyline points="168,146 176,154 184,146 192,154 200,146 208,154 216,146 224,154 232,146" fill="none" stroke="#f5f1e8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
+  <polyline points="168,162 176,170 184,162 192,170 200,162 208,170 216,162 224,170 232,162" fill="none" stroke="#f5f1e8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
+  <polyline points="168,178 176,186 184,178 192,186 200,178 208,186 216,178 224,186 232,178" fill="none" stroke="#f5f1e8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
+  <polyline points="168,194 176,202 184,194 192,202 200,194 208,202 216,194 224,202 232,194" fill="none" stroke="#f5f1e8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
+  <polyline points="168,210 176,218 184,210 192,218 200,210 208,218 216,210 224,218 232,210" fill="none" stroke="#f5f1e8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
+  <polyline points="168,226 176,234 184,226 192,234 200,226 208,234 216,226 224,234 232,226" fill="none" stroke="#f5f1e8" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
+  <rect x="164" y="22" width="72" height="232" rx="3" fill="none" stroke="#f5f1e8" stroke-width="1.8" stroke-dasharray="4 3" opacity=".8"/>
+  <circle cx="200" cy="262" r="5" fill="#c9a227"/>
+  <line x1="200" y1="264" x2="192" y2="292" stroke="#c9a227" stroke-width="3" stroke-linecap="round"/>
+  <line x1="200" y1="264" x2="196" y2="292" stroke="#c9a227" stroke-width="3" stroke-linecap="round"/>
+  <line x1="200" y1="264" x2="200" y2="292" stroke="#c9a227" stroke-width="3" stroke-linecap="round"/>
+  <line x1="200" y1="264" x2="204" y2="292" stroke="#c9a227" stroke-width="3" stroke-linecap="round"/>
+  <line x1="200" y1="264" x2="208" y2="292" stroke="#c9a227" stroke-width="3" stroke-linecap="round"/>
+</svg>

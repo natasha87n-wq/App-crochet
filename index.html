@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>I miei lavori all'uncinetto</title>
+  <title>Uncinetto &amp; Sashiko</title>
   <meta name="theme-color" content="#b5577b">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Uncinetto">
+  <meta name="apple-mobile-web-app-title" content="Lavori a mano">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -16,7 +16,7 @@
 <body>
   <header class="topbar">
     <button id="btn-back" class="icon-btn" hidden aria-label="Indietro">←</button>
-    <h1 id="page-title">🧶 Uncinetto</h1>
+    <h1 id="page-title">🧵 Uncinetto &amp; Sashiko</h1>
     <div class="topbar-actions">
       <button id="btn-menu" class="icon-btn" aria-label="Menu">⋯</button>
     </div>
@@ -39,10 +39,15 @@
       <div class="toolbar">
         <input id="c-search" type="search" placeholder="Cerca nel catalogo…">
       </div>
-      <div id="c-filters" class="chips">
-        <button class="chip active" data-level="">Tutti</button>
-        <button class="chip" data-level="Facile">Facile</button>
-        <button class="chip" data-level="Medio">Medio</button>
+      <div id="c-cats" class="chips">
+        <button class="chip active" data-value="">Tutti</button>
+        <button class="chip" data-value="uncinetto">🧶 Uncinetto</button>
+        <button class="chip" data-value="sashiko">🪡 Sashiko</button>
+      </div>
+      <div id="c-levels" class="chips small">
+        <button class="chip active" data-value="">Ogni livello</button>
+        <button class="chip" data-value="Facile">Facile</button>
+        <button class="chip" data-value="Medio">Medio</button>
       </div>
       <div id="catalog-grid" class="grid"></div>
     </section>
@@ -56,12 +61,12 @@
         <h2 id="c-title"></h2>
         <div id="c-info" class="info"></div>
         <p id="c-intro"></p>
-        <button id="btn-start" class="btn btn-big">🧶 Inizia questo lavoro</button>
+        <button id="btn-start" class="btn btn-big">✨ Inizia questo lavoro</button>
 
         <h3>🧺 Materiali</h3>
         <ul id="c-materials" class="plain-list"></ul>
 
-        <h3>🔤 Punti e abbreviazioni</h3>
+        <h3>🔤 Punti, tecniche e abbreviazioni</h3>
         <dl id="c-abbr" class="abbr"></dl>
 
         <h3>📋 Passaggi</h3>
@@ -76,6 +81,11 @@
     <section id="view-list" class="view">
       <div class="toolbar">
         <input id="search" type="search" placeholder="Cerca un lavoro…">
+      </div>
+      <div id="l-cats" class="chips">
+        <button class="chip active" data-value="">Tutti</button>
+        <button class="chip" data-value="uncinetto">🧶 Uncinetto</button>
+        <button class="chip" data-value="sashiko">🪡 Sashiko</button>
       </div>
       <div id="project-grid" class="grid"></div>
       <p id="empty" class="empty" hidden>
@@ -119,6 +129,13 @@
     <!-- Form nuovo / modifica -->
     <section id="view-form" class="view" hidden>
       <form id="project-form" class="form">
+        <label>Tipo di lavoro
+          <select name="category">
+            <option value="uncinetto">🧶 Uncinetto</option>
+            <option value="sashiko">🪡 Ricamo sashiko</option>
+          </select>
+        </label>
+
         <label>Nome del lavoro *
           <input name="title" required placeholder="Es. Amigurumi coniglietto">
         </label>
@@ -138,11 +155,11 @@
         </fieldset>
 
         <div class="row two">
-          <label>Filato
+          <label>Filato / filo
             <input name="yarn" placeholder="Es. cotone 100%, rosa">
           </label>
-          <label>Uncinetto
-            <input name="hook" placeholder="Es. 3,5 mm">
+          <label>Uncinetto / ago
+            <input name="hook" placeholder="Es. 3,5 mm oppure ago sashiko">
           </label>
         </div>
 

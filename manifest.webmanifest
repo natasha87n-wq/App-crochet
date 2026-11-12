@@ -1,7 +1,7 @@
 {
-  "name": "I miei lavori all'uncinetto",
-  "short_name": "Uncinetto",
-  "description": "Foto, modelli e passi dei tuoi lavori ad uncinetto",
+  "name": "Uncinetto & Sashiko",
+  "short_name": "Lavori a mano",
+  "description": "Modelli, foto e passi dei tuoi lavori ad uncinetto e ricamo sashiko",
   "lang": "it",
   "start_url": "./",
   "scope": "./",

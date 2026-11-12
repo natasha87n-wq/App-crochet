@@ -1,18 +1,21 @@
-# 🧶 I miei lavori all'uncinetto
+# 🧵 Uncinetto & Sashiko
 
-Piccola web app per i lavori ad uncinetto.
+Piccola web app per i lavori ad uncinetto e di ricamo sashiko.
 
 ## 📖 Catalogo
 
-Dieci modelli pronti da fare, ognuno con illustrazione, guida, materiali, spiegazione dei punti e passaggi giro per giro:
-sottobicchiere, presina, fiore, cuoricino, granny square, pallina amigurumi, sciarpa a coste, cestino, berretto con pompon, coperta di granny squares.
+Modelli pronti da fare, divisi per categoria e livello, ognuno con illustrazione, guida, materiali, spiegazione dei punti/tecniche e passaggi:
+
+- **🧶 Uncinetto**: sottobicchiere, presina, fiore, cuoricino, granny square, pallina amigurumi, sciarpa a coste, cestino, berretto con pompon, coperta di granny squares.
+- **🪡 Ricamo sashiko**: campionario di linee, sottobicchiere hitomezashi, segnalibro Yamagata, rammendo a vista sui jeans, shopper Seigaiha, tovaglietta Asanoha.
+
 Con **Inizia questo lavoro** il modello diventa un tuo lavoro, con i passi da spuntare.
 
 I modelli si aggiungono in `catalog.js` (le immagini vanno in `catalog/`).
 
 ## 🧶 I miei lavori
 
-Per ogni lavoro puoi salvare:
+Per ogni lavoro (uncinetto o sashiko) puoi salvare:
 
 - **Foto** del lavoro (scelta dalla galleria o scattata col telefono)
 - **Modello**: descrizione/schema in testo (i link diventano cliccabili) e un file allegato (immagine o PDF)
