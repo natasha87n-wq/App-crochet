@@ -73,9 +73,17 @@ function route() {
 }
 window.addEventListener('hashchange', route);
 
-$('#btn-back').addEventListener('click', () => {
-  if (history.length > 1) history.back(); else location.hash = '';
-});
+// Pagina "superiore" a cui porta la freccia indietro
+function parentHash() {
+  const [name, id] = location.hash.slice(1).split('/');
+  if (name === 'catalogo') return '';
+  if (name === 'lavoro') return 'lavori';
+  if (name === 'modifica' && id) return 'lavoro/' + id;
+  if (name === 'nuovo') return 'lavori';
+  return '';
+}
+function goUp() { location.replace('#' + parentHash()); }
+$('#btn-back').addEventListener('click', goUp);
 
 // ---------- Catalogo ----------
 let catalogLevel = '';
@@ -384,14 +392,18 @@ form.addEventListener('submit', async e => {
   location.replace('#lavoro/' + draft.id);
 });
 
-$('#f-cancel').addEventListener('click', () => history.back());
+$('#f-cancel').addEventListener('click', goUp);
 
 // ---------- Menu: backup ----------
 $('#btn-menu').addEventListener('click', e => {
   e.stopPropagation();
   $('#menu').hidden = !$('#menu').hidden;
 });
-document.addEventListener('click', () => { $('#menu').hidden = true; });
+// Chiudi il menu toccando ovunque fuori (pointerdown funziona anche su iPhone)
+document.addEventListener('pointerdown', e => {
+  if (!e.target.closest('#menu, #btn-menu')) $('#menu').hidden = true;
+});
+window.addEventListener('hashchange', () => { $('#menu').hidden = true; });
 $('#menu').addEventListener('click', e => e.stopPropagation());
 
 $('#btn-export').addEventListener('click', async () => {

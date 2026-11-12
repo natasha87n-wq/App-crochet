@@ -1,5 +1,5 @@
 // Service worker: rende l'app utilizzabile anche senza connessione.
-const CACHE = 'uncinetto-v5';
+const CACHE = 'uncinetto-v6';
 const FILES = [
   './', 'index.html', 'style.css', 'app.js', 'db.js', 'manifest.webmanifest',
   'catalog.js',
