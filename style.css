@@ -205,3 +205,5 @@ details textarea { margin: 8px 0; }
 .steps.readonly li span { display: flex; gap: 12px; padding: 12px 14px; }
 .steps.readonly li span::before { content: counter(step) "."; color: var(--accent); font-weight: 700; min-width: 1.6em; }
 .source-link { display: inline-block; margin-top: 12px; color: var(--accent); font-weight: 600; }
+
+.version { text-align: center; color: var(--muted); font-size: .8rem; margin-top: 24px; }

@@ -424,7 +424,17 @@ route();
 
 // Installazione come app sul telefono + funzionamento offline
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
+    .then(reg => reg.update())
+    .catch(() => {});
+  // Quando arriva una nuova versione dell'app, ricarica la pagina una volta
+  const hadController = !!navigator.serviceWorker.controller;
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (reloaded || !hadController) return;
+    reloaded = true;
+    location.reload();
+  });
   // Chiede al browser di non cancellare i dati salvati
   navigator.storage?.persist?.();
 }

@@ -1,5 +1,5 @@
 // Service worker: rende l'app utilizzabile anche senza connessione.
-const CACHE = 'uncinetto-v3';
+const CACHE = 'uncinetto-v5';
 const FILES = [
   './', 'index.html', 'style.css', 'app.js', 'db.js', 'manifest.webmanifest',
   'catalog.js',
@@ -20,16 +20,19 @@ self.addEventListener('activate', e => {
   );
 });
 
+const sameOrigin = req => new URL(req.url).origin === self.location.origin;
+
 // Prima prova la rete (così gli aggiornamenti arrivano), se manca usa la cache.
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   e.respondWith(
-    fetch(e.request)
+    // 'no-cache': chiede sempre al server se il file è cambiato (niente versioni vecchie)
+    fetch(sameOrigin(e.request) ? e.request.url : e.request, sameOrigin(e.request) ? { cache: 'no-cache' } : undefined)
       .then(res => {
         const copy = res.clone();
         caches.open(CACHE).then(c => c.put(e.request, copy));
         return res;
       })
-      .catch(() => caches.match(e.request, { ignoreSearch: true }))
+      .catch(() => caches.match(e.request, { ignoreSearch: true }).then(r => r || caches.match(e.request.url.split('?')[0])))
   );
 });
