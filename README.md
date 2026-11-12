@@ -23,7 +23,7 @@ I dati vengono salvati **nel browser** (IndexedDB) del dispositivo che usi: usa 
 
 L'app si può installare come un'app vera (icona nella schermata Home, funziona anche senza internet).
 
-1. **Pubblicala online con GitHub Pages**: su GitHub vai in *Settings → Pages*, in *Branch* scegli il ramo `main` e la cartella `/ (root)`, poi *Save*. Dopo un paio di minuti compare l'indirizzo, tipo `https://natasha87n-wq.github.io/app-crochet/`.
+1. **Pubblicala online con GitHub Pages**: su GitHub vai in *Settings → Pages*, in *Branch* scegli il ramo `main` e la cartella `/ (root)`, poi *Save*. Dopo un paio di minuti compare l'indirizzo, tipo `https://natasha87n-wq.github.io/App-crochet/`.
    GitHub Pages è gratis per i repo **pubblici**; per un repo privato serve GitHub Pro.
 2. **Apri l'indirizzo dal telefono** e aggiungila alla Home:
    - **iPhone (Safari)**: tasto Condividi ⬆️ → *Aggiungi alla schermata Home*
