@@ -1,6 +1,18 @@
 # 🧶 I miei lavori all'uncinetto
 
-Piccola web app per tenere traccia dei lavori ad uncinetto. Per ogni lavoro puoi salvare:
+Piccola web app per i lavori ad uncinetto.
+
+## 📖 Catalogo
+
+Dieci modelli pronti da fare, ognuno con illustrazione, guida, materiali, spiegazione dei punti e passaggi giro per giro:
+sottobicchiere, presina, fiore, cuoricino, granny square, pallina amigurumi, sciarpa a coste, cestino, berretto con pompon, coperta di granny squares.
+Con **Inizia questo lavoro** il modello diventa un tuo lavoro, con i passi da spuntare.
+
+I modelli si aggiungono in `catalog.js` (le immagini vanno in `catalog/`).
+
+## 🧶 I miei lavori
+
+Per ogni lavoro puoi salvare:
 
 - **Foto** del lavoro (scelta dalla galleria o scattata col telefono)
 - **Modello**: descrizione/schema in testo (i link diventano cliccabili) e un file allegato (immagine o PDF)
@@ -37,4 +49,5 @@ L'app si può installare come un'app vera (icona nella schermata Home, funziona 
 | `style.css`  | Stile (con tema scuro automatico) |
 | `db.js`      | Salvataggio locale con IndexedDB |
 | `app.js`     | Logica dell'app |
+| `catalog.js`, `catalog/` | Modelli del catalogo e illustrazioni |
 | `sw.js`, `manifest.webmanifest`, `icons/` | Installazione sul telefono e uso offline |

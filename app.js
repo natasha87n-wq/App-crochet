@@ -49,21 +49,27 @@ function progressOf(p) {
 let current = null;      // lavoro aperto nel dettaglio
 let draft = null;        // lavoro in modifica nel form
 
-const views = ['list', 'detail', 'form'];
+const views = ['catalog', 'catalog-detail', 'list', 'detail', 'form'];
+const tabViews = ['catalog', 'list'];
 function show(view, title) {
   views.forEach(v => { $('#view-' + v).hidden = v !== view; });
-  $('#btn-back').hidden = view === 'list';
-  $('#page-title').textContent = title || '🧶 I miei lavori';
+  const isTab = tabViews.includes(view);
+  $('#btn-back').hidden = isTab;
+  $('#tabs').hidden = !isTab;
+  document.querySelectorAll('#tabs a').forEach(a => a.classList.toggle('active', a.dataset.tab === view));
+  $('#page-title').textContent = title || '🧶 Uncinetto';
   window.scrollTo(0, 0);
 }
 
 function route() {
   const hash = location.hash.slice(1);
   const [name, id] = hash.split('/');
+  if (name === 'catalogo' && id) return openCatalogItem(id);
+  if (name === 'lavori') return renderList();
   if (name === 'lavoro' && id) return openDetail(id);
   if (name === 'nuovo') return openForm(null);
   if (name === 'modifica' && id) return openForm(id);
-  return renderList();
+  return renderCatalog();
 }
 window.addEventListener('hashchange', route);
 
@@ -71,9 +77,87 @@ $('#btn-back').addEventListener('click', () => {
   if (history.length > 1) history.back(); else location.hash = '';
 });
 
+// ---------- Catalogo ----------
+let catalogLevel = '';
+
+function renderCatalog() {
+  show('catalog');
+  const q = $('#c-search').value.trim().toLowerCase();
+  const items = CATALOG.filter(c =>
+    (!catalogLevel || c.level === catalogLevel) &&
+    (!q || (c.title + ' ' + c.intro).toLowerCase().includes(q)));
+  $('#catalog-grid').innerHTML = items.map(c => `
+    <a class="card" href="#catalogo/${c.id}">
+      <img src="${c.image}" alt="">
+      <span class="badge level-${c.level.toLowerCase()}">${c.level}</span>
+      <div class="card-body">
+        <strong>${esc(c.title)}</strong>
+        <small>⏱ ${esc(c.time)}</small>
+      </div>
+    </a>`).join('') || '<p class="empty">Nessun modello trovato.</p>';
+}
+$('#c-search').addEventListener('input', renderCatalog);
+$('#c-filters').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  catalogLevel = chip.dataset.level;
+  document.querySelectorAll('#c-filters .chip').forEach(c => c.classList.toggle('active', c === chip));
+  renderCatalog();
+});
+
+let currentModel = null;
+function openCatalogItem(id) {
+  const c = CATALOG.find(x => x.id === id);
+  if (!c) { location.hash = ''; return; }
+  currentModel = c;
+  show('catalog-detail', c.title);
+  $('#c-photo').src = c.image;
+  $('#c-title').textContent = c.title;
+  $('#c-info').innerHTML = [
+    ['📶', c.level], ['⏱', c.time], ['📏', c.size], ['🧶', c.yarn], ['🪝', 'uncinetto ' + c.hook],
+  ].map(([i, t]) => `<span>${i} ${esc(t)}</span>`).join('');
+  $('#c-intro').textContent = c.intro;
+  $('#c-materials').innerHTML = c.materials.map(m => `<li>${esc(m)}</li>`).join('');
+  $('#c-abbr').innerHTML = c.abbr.map(k => {
+    const [short, name, how] = ABBR[k];
+    return `<div><dt><b>${short}</b> = ${name}</dt><dd>${esc(how)}</dd></div>`;
+  }).join('');
+  $('#c-steps').innerHTML = c.steps.map(s => `<li><span>${esc(s)}</span></li>`).join('');
+  $('#c-tips').innerHTML = c.tips.map(t => `<li>${esc(t)}</li>`).join('');
+}
+
+function patternTextOf(c) {
+  return [
+    c.intro,
+    '',
+    'Misura: ' + c.size,
+    '',
+    'MATERIALI',
+    ...c.materials.map(m => '• ' + m),
+    '',
+    'ABBREVIAZIONI',
+    ...c.abbr.map(k => `• ${ABBR[k][0]} = ${ABBR[k][1]}: ${ABBR[k][2]}`),
+    '',
+    'CONSIGLI',
+    ...c.tips.map(t => '• ' + t),
+  ].join('\n');
+}
+
+$('#btn-start').addEventListener('click', async () => {
+  const c = currentModel;
+  const project = {
+    id: uid(), sourceId: c.id, title: c.title, yarn: c.yarn, hook: c.hook,
+    photo: c.image, patternText: patternTextOf(c), patternFile: null,
+    steps: c.steps.map(text => ({ text, done: false })),
+    createdAt: Date.now(), updatedAt: Date.now(),
+  };
+  await DB.put(project);
+  location.hash = 'lavoro/' + project.id;
+});
+
 // ---------- Lista ----------
 async function renderList() {
-  show('list');
+  show('list', '🧶 I miei lavori');
   const q = $('#search').value.trim().toLowerCase();
   let projects = await DB.all();
   projects.sort((a, b) => b.updatedAt - a.updatedAt);
@@ -118,6 +202,10 @@ function renderDetail() {
   if (p.yarn) meta.push('🧶 ' + p.yarn);
   if (p.hook) meta.push('🪝 ' + p.hook);
   $('#d-meta').textContent = meta.join('  ·  ');
+
+  const src = p.sourceId && CATALOG.find(c => c.id === p.sourceId);
+  $('#d-source').hidden = !src;
+  if (src) { $('#d-source').href = '#catalogo/' + src.id; $('#d-source').textContent = '📖 Vedi il modello nel catalogo'; }
 
   const pf = p.patternFile;
   if (pf && pf.type.startsWith('image/')) {
@@ -170,7 +258,7 @@ $('#btn-reset').addEventListener('click', async () => {
 $('#btn-delete').addEventListener('click', async () => {
   if (!confirm(`Eliminare “${current.title}”? L'operazione non si può annullare.`)) return;
   await DB.remove(current.id);
-  location.hash = '';
+  location.hash = 'lavori';
 });
 
 // ---------- Form ----------
@@ -310,8 +398,7 @@ $('#input-import').addEventListener('change', async e => {
     for (const p of projects) await DB.put(p);
     alert(`Importati ${projects.length} lavori.`);
     $('#menu').hidden = true;
-    location.hash = '';
-    renderList();
+    location.hash = 'lavori';
   } catch {
     alert('File di backup non valido.');
   }

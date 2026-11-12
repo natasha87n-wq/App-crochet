@@ -16,7 +16,7 @@
 <body>
   <header class="topbar">
     <button id="btn-back" class="icon-btn" hidden aria-label="Indietro">←</button>
-    <h1 id="page-title">🧶 I miei lavori</h1>
+    <h1 id="page-title">🧶 Uncinetto</h1>
     <div class="topbar-actions">
       <button id="btn-menu" class="icon-btn" aria-label="Menu">⋯</button>
     </div>
@@ -27,8 +27,51 @@
       </label>
     </div>
   </header>
+  <nav id="tabs" class="tabs">
+    <a href="#" data-tab="catalog">📖 Catalogo</a>
+    <a href="#lavori" data-tab="list">🧶 I miei lavori</a>
+  </nav>
 
   <main id="app">
+    <!-- Catalogo -->
+    <section id="view-catalog" class="view">
+      <p class="intro">Idee e modelli pronti, con guida e passaggi. Scegline uno e tocca <strong>Inizia questo lavoro</strong>.</p>
+      <div class="toolbar">
+        <input id="c-search" type="search" placeholder="Cerca nel catalogo…">
+      </div>
+      <div id="c-filters" class="chips">
+        <button class="chip active" data-level="">Tutti</button>
+        <button class="chip" data-level="Facile">Facile</button>
+        <button class="chip" data-level="Medio">Medio</button>
+      </div>
+      <div id="catalog-grid" class="grid"></div>
+    </section>
+
+    <!-- Scheda del catalogo -->
+    <section id="view-catalog-detail" class="view" hidden>
+      <div class="detail-photo-wrap">
+        <img id="c-photo" class="detail-photo" alt="">
+      </div>
+      <div class="detail-body">
+        <h2 id="c-title"></h2>
+        <div id="c-info" class="info"></div>
+        <p id="c-intro"></p>
+        <button id="btn-start" class="btn btn-big">🧶 Inizia questo lavoro</button>
+
+        <h3>🧺 Materiali</h3>
+        <ul id="c-materials" class="plain-list"></ul>
+
+        <h3>🔤 Punti e abbreviazioni</h3>
+        <dl id="c-abbr" class="abbr"></dl>
+
+        <h3>📋 Passaggi</h3>
+        <ol id="c-steps" class="steps readonly"></ol>
+
+        <h3>💡 Consigli</h3>
+        <ul id="c-tips" class="plain-list"></ul>
+      </div>
+    </section>
+
     <!-- Lista lavori -->
     <section id="view-list" class="view">
       <div class="toolbar">
@@ -36,7 +79,7 @@
       </div>
       <div id="project-grid" class="grid"></div>
       <p id="empty" class="empty" hidden>
-        Nessun lavoro ancora.<br>Tocca <strong>+</strong> per aggiungere il primo!
+        Nessun lavoro ancora.<br>Scegline uno dal <a href="#">Catalogo</a> oppure tocca <strong>+</strong> per crearne uno tuo.
       </p>
       <button id="btn-new" class="fab" aria-label="Nuovo lavoro">+</button>
     </section>
@@ -56,12 +99,14 @@
           <span id="d-progress-text"></span>
         </div>
 
-        <h3>📐 Modello</h3>
-        <div id="d-pattern-file"></div>
-        <div id="d-pattern-text" class="pattern-text"></div>
+        <a id="d-source" class="source-link" hidden></a>
 
         <h3>✅ Passi da fare</h3>
         <ol id="d-steps" class="steps"></ol>
+
+        <h3>📐 Modello</h3>
+        <div id="d-pattern-file"></div>
+        <div id="d-pattern-text" class="pattern-text"></div>
 
         <div class="detail-actions">
           <button id="btn-edit" class="btn">✏️ Modifica</button>
@@ -135,6 +180,7 @@
   </main>
 
   <script src="db.js"></script>
+  <script src="catalog.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

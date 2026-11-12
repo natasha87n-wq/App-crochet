@@ -118,6 +118,7 @@ main { max-width: 900px; margin: 0 auto; padding: 16px; padding-bottom: 96px; }
 /* Dettaglio */
 .detail-photo-wrap { border-radius: var(--radius); overflow: hidden; }
 .detail-photo, .detail-photo-wrap .photo-placeholder { width: 100%; max-height: 420px; object-fit: cover; display: block; }
+.detail-photo[src$=".svg"] { object-fit: contain; }
 .detail-photo-wrap .photo-placeholder { height: 200px; }
 .detail-body h2 { margin: 16px 0 0; }
 .detail-body h3 { margin: 24px 0 8px; }
@@ -167,3 +168,37 @@ details textarea { margin: 8px 0; }
 .edit-steps li { display: flex; align-items: center; gap: 2px; }
 .edit-steps li::marker { color: var(--muted); }
 .edit-steps input { flex: 1; min-width: 0; }
+
+/* Schede */
+.tabs {
+  position: sticky; top: 56px; z-index: 9;
+  display: flex; background: var(--surface); border-bottom: 1px solid var(--border);
+}
+.tabs a {
+  flex: 1; text-align: center; padding: 12px 8px; text-decoration: none;
+  color: var(--muted); font-weight: 600; border-bottom: 3px solid transparent;
+}
+.tabs a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* Catalogo */
+.intro { color: var(--muted); margin: 0 0 12px; }
+.chips { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.chip {
+  border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  padding: 6px 14px; border-radius: 999px; font: inherit; cursor: pointer;
+}
+.chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.badge.level-medio { background: #d08a2e; }
+.card img[src$=".svg"] { object-fit: cover; aspect-ratio: 4 / 3; }
+
+.info { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 8px 0 4px; color: var(--muted); font-size: .92rem; }
+.btn-big { width: 100%; justify-content: center; padding: 14px; font-size: 1.05rem; margin-top: 8px; }
+.plain-list { margin: 0; padding-left: 1.2em; }
+.plain-list li { margin-bottom: 6px; }
+.abbr { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.abbr div { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+.abbr dt b { color: var(--accent); }
+.abbr dd { margin: 4px 0 0; color: var(--muted); font-size: .92rem; }
+.steps.readonly li span { display: flex; gap: 12px; padding: 12px 14px; }
+.steps.readonly li span::before { content: counter(step) "."; color: var(--accent); font-weight: 700; min-width: 1.6em; }
+.source-link { display: inline-block; margin-top: 12px; color: var(--accent); font-weight: 600; }
