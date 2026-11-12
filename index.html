@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>I miei lavori all'uncinetto</title>
+  <meta name="theme-color" content="#b5577b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Uncinetto">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <button id="btn-back" class="icon-btn" hidden aria-label="Indietro">←</button>
+    <h1 id="page-title">🧶 I miei lavori</h1>
+    <div class="topbar-actions">
+      <button id="btn-menu" class="icon-btn" aria-label="Menu">⋯</button>
+    </div>
+    <div id="menu" class="menu" hidden>
+      <button id="btn-export">Esporta backup</button>
+      <label class="menu-item">Importa backup
+        <input id="input-import" type="file" accept="application/json" hidden>
+      </label>
+    </div>
+  </header>
+
+  <main id="app">
+    <!-- Lista lavori -->
+    <section id="view-list" class="view">
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Cerca un lavoro…">
+      </div>
+      <div id="project-grid" class="grid"></div>
+      <p id="empty" class="empty" hidden>
+        Nessun lavoro ancora.<br>Tocca <strong>+</strong> per aggiungere il primo!
+      </p>
+      <button id="btn-new" class="fab" aria-label="Nuovo lavoro">+</button>
+    </section>
+
+    <!-- Dettaglio lavoro -->
+    <section id="view-detail" class="view" hidden>
+      <div class="detail-photo-wrap">
+        <img id="d-photo" class="detail-photo" alt="">
+        <div id="d-photo-empty" class="photo-placeholder">🧶</div>
+      </div>
+      <div class="detail-body">
+        <h2 id="d-title"></h2>
+        <p id="d-meta" class="meta"></p>
+
+        <div class="progress-wrap">
+          <div class="progress"><div id="d-progress-bar"></div></div>
+          <span id="d-progress-text"></span>
+        </div>
+
+        <h3>📐 Modello</h3>
+        <div id="d-pattern-file"></div>
+        <div id="d-pattern-text" class="pattern-text"></div>
+
+        <h3>✅ Passi da fare</h3>
+        <ol id="d-steps" class="steps"></ol>
+
+        <div class="detail-actions">
+          <button id="btn-edit" class="btn">✏️ Modifica</button>
+          <button id="btn-reset" class="btn btn-ghost">↺ Azzera passi</button>
+          <button id="btn-delete" class="btn btn-danger">🗑️ Elimina</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form nuovo / modifica -->
+    <section id="view-form" class="view" hidden>
+      <form id="project-form" class="form">
+        <label>Nome del lavoro *
+          <input name="title" required placeholder="Es. Amigurumi coniglietto">
+        </label>
+
+        <fieldset>
+          <legend>📷 Foto</legend>
+          <div class="photo-picker">
+            <img id="f-photo-preview" alt="" hidden>
+            <div id="f-photo-empty" class="photo-placeholder small">Nessuna foto</div>
+          </div>
+          <div class="row">
+            <label class="btn btn-ghost">Scegli / scatta foto
+              <input id="f-photo" type="file" accept="image/*" hidden>
+            </label>
+            <button type="button" id="f-photo-remove" class="btn btn-ghost" hidden>Rimuovi</button>
+          </div>
+        </fieldset>
+
+        <div class="row two">
+          <label>Filato
+            <input name="yarn" placeholder="Es. cotone 100%, rosa">
+          </label>
+          <label>Uncinetto
+            <input name="hook" placeholder="Es. 3,5 mm">
+          </label>
+        </div>
+
+        <fieldset>
+          <legend>📐 Modello</legend>
+          <label>Descrizione / schema
+            <textarea name="patternText" rows="5" placeholder="Abbreviazioni, schema, link al modello…"></textarea>
+          </label>
+          <div id="f-pattern-current" class="muted"></div>
+          <div class="row">
+            <label class="btn btn-ghost">Allega file (immagine o PDF)
+              <input id="f-pattern" type="file" accept="image/*,application/pdf" hidden>
+            </label>
+            <button type="button" id="f-pattern-remove" class="btn btn-ghost" hidden>Rimuovi file</button>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>✅ Passi da fare</legend>
+          <ol id="f-steps" class="edit-steps"></ol>
+          <button type="button" id="f-add-step" class="btn btn-ghost">+ Aggiungi passo</button>
+          <details class="muted">
+            <summary>Incolla più passi insieme</summary>
+            <textarea id="f-bulk" rows="4" placeholder="Un passo per riga"></textarea>
+            <button type="button" id="f-bulk-add" class="btn btn-ghost">Aggiungi righe</button>
+          </details>
+        </fieldset>
+
+        <div class="detail-actions">
+          <button type="submit" class="btn">💾 Salva</button>
+          <button type="button" id="f-cancel" class="btn btn-ghost">Annulla</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="db.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
